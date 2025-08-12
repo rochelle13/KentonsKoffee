@@ -10,14 +10,14 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/img_logo"
         android:layout_width="205dp"
         android:layout_height="283dp"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/kentonslogo"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_placedOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -38,42 +38,42 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/img_sb1"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/sb1" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/img_sb2"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/sb2" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/img_sb3"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/sb3" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/img_sb4"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/sb4" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/img_sb5"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/sb5" />
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/img_sb6"
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"

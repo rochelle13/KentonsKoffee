@@ -6,6 +6,8 @@ plugins {
 android {
     namespace = "iie.rochelle.kentonskoffee"
     compileSdk = 35
+    viewBinding.enable = true
+
 
     defaultConfig {
         applicationId = "iie.rochelle.kentonskoffee"
