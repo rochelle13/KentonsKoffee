@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">KentonsKoffee</string>
     <string name="welcome_message" translatable="true">Welcome to \nKenton\'s Koffee</string>
-    <string name = "order" translatable="false"> You Ordered </string>
+    <string name="order" translatable="false"> You Ordered </string>
+    <string name="navigation_drawer_open" translatable="false">Open Navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close Navigation drawer</string>
+    <string name="smile">SMILE</string>
 
 </resources>
