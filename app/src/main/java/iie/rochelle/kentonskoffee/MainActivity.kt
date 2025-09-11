@@ -112,6 +112,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         CoroutineScope(Dispatchers.IO).launch {
             val product = orderDAO.getAllOrders().firstOrNull { it.productName == productName }
             product?.let {
+                //saves to Json
+                JsonUtils.saveOrderPrefences(this@MainActivity, it)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@MainActivity, "S{it.productName}", Toast.LENGTH_SHORT).show()
                 openIntent(applicationContext, it.productName, OrderDetailsActivity:: class.java)

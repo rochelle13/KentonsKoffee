@@ -18,6 +18,10 @@ class OrderDetailsActivity : AppCompatActivity() {
         val binding = ActivityOrderDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Retrieve the order from SharedPreferences
+        val orderFromPrefs = JsonUtils.getOrderFromPreferences(this)
+        orderFromPrefs?.let { order = it }
+
         //get the name of the ordered product from the intent
         order.productName = intent.getStringExtra("order").toString()
 
