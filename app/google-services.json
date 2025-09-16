@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496359018729",
+    "project_id": "kentonskoffee-bf8d8",
+    "storage_bucket": "kentonskoffee-bf8d8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496359018729:android:74c49330248e9b8c15a078",
+        "android_client_info": {
+          "package_name": "iie.rochelle.kentonskoffee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArAZ7PyZ4nZ6whIrLSMKhGHh_LiTlGUVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
