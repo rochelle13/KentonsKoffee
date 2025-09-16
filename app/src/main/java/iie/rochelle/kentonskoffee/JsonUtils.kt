@@ -28,7 +28,12 @@ object JsonUtils {
         val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val jsonString = sharedPreferences.getString("order_key", null)
         val jsonObject = JSONObject(jsonString)
-        val returnOrder  = Order(jsonObject.getString("productName"),jsonObject.getString("customerName"), jsonObject.getString("customerCell"),jsonObject.getString("orderDate"))
+        val returnOrder = Order(
+            jsonObject.getString("productName"),
+            jsonObject.getString("customerName"),
+            jsonObject.getString("customerCell"),
+            jsonObject.getString("orderDate")
+        )
         return returnOrder
     }
 }

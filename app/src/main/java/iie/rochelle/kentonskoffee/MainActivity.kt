@@ -12,6 +12,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.database.FirebaseDatabase
 import iie.rochelle.kentonskoffee.databinding.ActivityMainWithNavDrawerBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,8 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {
 
-
+    private lateinit var database: FirebaseDatabase
+    var order = Order()
     private lateinit var binding: ActivityMainWithNavDrawerBinding
     private lateinit var orderDAO: OrderDAO //Declare DAO
     private lateinit var db: AppDatabase //Declare Database
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         enableEdgeToEdge()
         val binding = ActivityMainWithNavDrawerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        database = FirebaseDatabase.getInstance()
 
         //Initialize the database and DAO
         db = AppDatabase.getDatabase(this) as AppDatabase
@@ -103,7 +108,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         )
         //used to insert products in the background
         CoroutineScope(Dispatchers.IO).launch {
-            products.forEach { orderDAO.insert(it) }
+            products.forEach {
+                orderDAO.insert(it)
+                saveOrderToFirebase(it)
+            }
+
+        }
+    }
+
+    private fun saveOrderToFirebase(order: OrderEntity) {
+        //get a reference to the orders node in the database
+        val ordersRef = database.getReference("orders")
+
+        //Generate a unique key for the new order
+        val orderId = ordersRef.push().key
+
+        //set the data using the key
+        orderId?.let {
+            ordersRef.child(it).setValue(order).addOnSuccessListener {
+                //Successfully saved
+                Toast.makeText(this, "Order saved to Firebase", Toast.LENGTH_SHORT).show()
+
+            }
+                .addOnFailureListener { e ->
+                    //Successfully saved
+                    Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
         }
     }
 
@@ -116,8 +148,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                 JsonUtils.saveOrderPrefences(this@MainActivity, it)
 
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@MainActivity, "S{it.productName}", Toast.LENGTH_SHORT).show()
-                openIntent(applicationContext, it.productName, OrderDetailsActivity:: class.java)
+                    Toast.makeText(this@MainActivity, "S{it.productName}", Toast.LENGTH_SHORT)
+                        .show()
+                    openIntent(
+                        applicationContext,
+                        it.productName,
+                        OrderDetailsActivity::class.java
+                    )
                 }
             }
         }
