@@ -11,9 +11,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import iie.rochelle.kentonskoffee.databinding.ActivityMainWithNavDrawerBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +34,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var orderDAO: OrderDAO //Declare DAO
     private lateinit var db: AppDatabase //Declare Database
 
+    private lateinit var orderAdapter: OrderAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var orderList: MutableList<OrderEntity>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,6 +45,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(binding.root)
 
         database = FirebaseDatabase.getInstance()
+
+        //initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerview)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        orderList = mutableListOf()//Initialize the list
+        orderAdapter = OrderAdapter(orderList)
+        recyclerView.adapter = orderAdapter
+
 
         //Initialize the database and DAO
         db = AppDatabase.getDatabase(this) as AppDatabase
@@ -114,6 +131,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             }
 
         }
+    }
+
+    private fun fetchOrdersFromFirebase() {
+        val ordersRef = database.getReference("orders")
+
+        ordersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                orderList.clear()
+
+                for (orderSnapshot in snapshot.children) {
+                    val order = orderSnapshot.getValue(OrderEntity::class.java)
+                    order?.let { orderList.add(it) }
+                }
+                orderAdapter.updateOrders(orderList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Error fetching data: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
     private fun saveOrderToFirebase(order: OrderEntity) {
